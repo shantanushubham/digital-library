@@ -43,3 +43,5 @@ public class BookOutputEntity {
 
 
 }
+
+// Controller (InputEntity)

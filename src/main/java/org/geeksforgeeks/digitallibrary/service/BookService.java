@@ -22,4 +22,8 @@ public class BookService {
     public BookModel getBookById(long id) {
         return this.bookRepository.findById(id);
     }
+
+    public BookModel updateBook(BookModel bookModel) {
+        return this.bookRepository.update(bookModel);
+    }
 }
