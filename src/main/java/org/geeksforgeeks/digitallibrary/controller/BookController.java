@@ -1,9 +1,9 @@
 package org.geeksforgeeks.digitallibrary.controller;
 
 import jakarta.validation.Valid;
-import org.geeksforgeeks.digitallibrary.adapter.BookAdapter;
 import org.geeksforgeeks.digitallibrary.commons.CommonAdapter;
 import org.geeksforgeeks.digitallibrary.entities.input.BookInputEntity;
+import org.geeksforgeeks.digitallibrary.exceptions.ResourceNotFoundException;
 import org.geeksforgeeks.digitallibrary.model.BookModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,11 +28,20 @@ public class BookController {
                 HttpStatus.CREATED);
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllBooks() {
+        return new ResponseEntity<>(this.adapter.getAll(), HttpStatus.OK);
+    }
+
     @PutMapping("/update")
     public ResponseEntity<?> updateBook(@Valid @RequestBody BookInputEntity book) {
-        return new ResponseEntity<>(
-                this.adapter.update(book),
-                HttpStatus.OK
-        );
+        try {
+            return new ResponseEntity<>(
+                    this.adapter.update(book),
+                    HttpStatus.OK
+            );
+        } catch (ResourceNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 }

@@ -2,11 +2,15 @@ package org.geeksforgeeks.digitallibrary.entities.input;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Data;
+import lombok.With;
 
 import java.time.Instant;
 
 @Data
+@Builder
+@With
 public class BookInputEntity {
 
     private long id;

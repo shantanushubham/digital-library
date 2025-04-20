@@ -13,3 +13,14 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+#  data:
+#    redis:
+#      host: <your-host>
+#      port: <your-port>
+#      password: <your-password> [Optional]
+
+  security:
+    user:
+      name: shantanu
+      password: shantanu

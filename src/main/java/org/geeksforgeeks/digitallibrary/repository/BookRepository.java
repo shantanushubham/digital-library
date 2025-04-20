@@ -5,12 +5,11 @@ import org.geeksforgeeks.digitallibrary.exceptions.ResourceNotFoundException;
 import org.geeksforgeeks.digitallibrary.mappers.output.BookOutputMapper;
 import org.geeksforgeeks.digitallibrary.model.BookModel;
 import org.geeksforgeeks.digitallibrary.repository.jpa.BookJPARepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -18,7 +17,6 @@ public class BookRepository {
 
     private final BookJPARepository bookJPARepository;
     private final BookOutputMapper bookOutputMapper;
-
 
     @Autowired
     public BookRepository(BookJPARepository bookJPARepository, BookOutputMapper bookOutputMapper) {
@@ -42,6 +40,10 @@ public class BookRepository {
                 new ResourceNotFoundException(BookModel.class, "id", String.valueOf(id)));
     }
 
+    public List<BookModel> findAllBooks() {
+        return this.bookJPARepository.findAll().stream().map(this.bookOutputMapper::mapToModel).toList();
+    }
+
     public BookModel update(BookModel bookModel) {
         BookModel existingModel = this.findById(bookModel.getId());
         bookModel.setUpdatedAt(Instant.now());
@@ -49,4 +51,7 @@ public class BookRepository {
         return this.save(bookModel);
     }
 
+    public void deleteBook(long id) {
+        this.bookJPARepository.deleteById(id);
+    }
 }

@@ -13,6 +13,7 @@ public class BookOutputMapper {
                 .name(bookOutputEntity.getName())
                 .author(bookOutputEntity.getAuthor())
                 .description(bookOutputEntity.getDescription())
+                .publishedDate(bookOutputEntity.getPublishedDate())
                 .createdAt(bookOutputEntity.getCreatedAt())
                 .updatedAt(bookOutputEntity.getUpdatedAt())
                 .build();
