@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.time.Instant;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 public class BookControllerTest {
@@ -93,6 +94,19 @@ public class BookControllerTest {
         ResponseEntity<?> response = this.bookController.updateBook(modifiedInput);
 
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Getting All Books - Should return a ist of books")
+    void testGetAllBooks_shouldReturn_listOfBooks(){
+        List<BookModel> list = List.of(bookModel);
+
+        Mockito.when(this.adapter.getAll()).thenReturn(list);
+
+        ResponseEntity<?> response = this.bookController.getAllBooks();
+
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(list, response.getBody());
     }
 
 }

@@ -26,6 +26,11 @@ public class UserRepository {
         return this.userOutputMapper.mapToModel(savedOutputEntity);
     }
 
+    public UserModel getUserById(long id) {
+        return this.userJPARepository.findById(id).map(this.userOutputMapper::mapToModel)
+                .orElseThrow(() -> new ResourceNotFoundException(UserModel.class, "id", String.valueOf(id)));
+    }
+
     public UserModel getUserByEmail(String email) {
         return this.userJPARepository.findByEmail(email).map(this.userOutputMapper::mapToModel)
                 .orElseThrow(() -> new ResourceNotFoundException(UserModel.class, "email", email));
