@@ -1,0 +1,42 @@
+name: Deploy Spring Boot App
+
+on:
+  push:
+    branches:
+      - main  # or master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Build with Maven (CI profile, skip tests)
+        run: mvn clean install -Dspring.profiles.active=ci -DskipTests
+
+#      - name: Copy JAR to remote server
+#        uses: appleboy/scp-action@v0.1.7
+#        with:
+#          host: ${{ secrets.REMOTE_HOST }}
+#          username: ${{ secrets.REMOTE_USER }}
+#          key: ${{ secrets.SSH_PRIVATE_KEY }}
+#          source: "target/*.jar"
+#          target: "/home/${{ secrets.REMOTE_USER }}/app"
+#
+#      - name: SSH and start app
+#        uses: appleboy/ssh-action@v1.0.0
+#        with:
+#          host: ${{ secrets.REMOTE_HOST }}
+#          username: ${{ secrets.REMOTE_USER }}
+#          key: ${{ secrets.SSH_PRIVATE_KEY }}
+#          script: |
+#            pkill -f 'java -jar' || true
+#            nohup java -jar /home/${{ secrets.REMOTE_USER }}/app/*.jar > app.log 2>&1 &

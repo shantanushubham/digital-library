@@ -3,16 +3,13 @@ spring:
     name: Digital Library
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
+    url: jdbc:h2:mem:testdb  # or just remove the entire datasource section
+    driver-class-name: org.h2.Driver
+    username: sa
     password:
-    driver-class-name: org.postgresql.Driver
-
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: update
-    show-sql: true
+    jpa:
+      hibernate:
+        ddl-auto: none
 
   #  data:
   #    redis:
